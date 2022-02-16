@@ -1,0 +1,44 @@
+Last login: Wed Feb 16 18:03:04 on ttys000
+diana@MacBook-Pro-Diana ~ % cd 1974603-kekstagram-25/
+diana@MacBook-Pro-Diana 1974603-kekstagram-25 % git status
+На ветке module1-task1
+нечего коммитить, нет изменений в рабочем каталоге
+diana@MacBook-Pro-Diana 1974603-kekstagram-25 % vim Readme.md
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Личный проект «Кекстаграм»
+
+* Студент: [Диана Бескоровайнова](https://up.htmlacademy.ru/javascript/25/user/1974603).
+* Наставник: `Павел Лукин`.
+
+---
+
+_Не удаляйте и не изменяйте самовольно файлы и папки:_
+_`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `package-lock.json`, `package.json`., `.github`_
+
+---
+
+[Как работать с Git на проекте](Contributing.md) | [Как работать над проектом](Workflow.md)
+
+### Памятка
+
+#### 1. Зарегистрируйтесь на Гитхабе
+
+Если у вас ещё нет аккаунта на [github.com](https://github.com/join), скорее зарегистрируйтесь.
+"Readme.md" 51L, 2923B
