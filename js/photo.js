@@ -1,5 +1,6 @@
 import {getRandomPositiveInteger, getRandomArrayElement} from './random';
-import {createComment, createComments} from './Comment';
+import {createComments} from './Comment';
+import {DESCRIPTION} from './main';
 const createPhotoObject=(id) => ({
   id,
   url: `photos/${id}.jpg`,

@@ -1,6 +1,3 @@
-import {getRandomPositiveInteger, getRandomArrayElement} from './random';
-import {createComment, createComments} from './Comment';
-import {createPhotoObject, createPhotoObjects} from './photo';
 const NAMES = [
   'Max',
   'Alex',

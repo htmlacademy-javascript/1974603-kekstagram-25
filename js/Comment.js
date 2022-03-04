@@ -1,4 +1,5 @@
 import {getRandomPositiveInteger, getRandomArrayElement} from './random';
+import {NAMES, MESSAGE} from './main';
 const createComment= ()=>
   ({
     id: getRandomPositiveInteger (1,10),
