@@ -24,5 +24,5 @@ const MESSAGE=[
 const lengthString=(checkString, maxLength) => checkString <= maxLength;
 
 lengthString();
-
+export {NAMES, DESCRIPTION,MESSAGE};
 
