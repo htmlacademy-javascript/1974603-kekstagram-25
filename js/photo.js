@@ -1,6 +1,13 @@
-import {getRandomPositiveInteger, getRandomArrayElement} from './random';
-import {createComments} from './Comment';
-import {DESCRIPTION} from './main';
+import {getRandomPositiveInteger, getRandomArrayElement} from './random.js';
+import {createComments} from './comment.js';
+
+const DESCRIPTION=[
+  'Я на прогулке',
+  'Я и моя команда',
+  'Я на спорте',
+  'Я на пробежке',
+];
+
 const createPhotoObject=(id) => ({
   id,
   url: `photos/${id}.jpg`,
@@ -15,5 +22,5 @@ const createPhotoObjects= () => {
   }
   return arrayOfPhotos;
 };
-createPhotoObjects ();
-export {createPhotoObject, createPhotoObjects};
+
+export {createPhotoObjects};
