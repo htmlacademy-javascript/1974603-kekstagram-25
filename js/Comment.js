@@ -1,5 +1,17 @@
-import {getRandomPositiveInteger, getRandomArrayElement} from './random';
-import {NAMES, MESSAGE} from './main';
+import {getRandomPositiveInteger, getRandomArrayElement} from './random.js';
+
+const NAMES = [
+  'Max',
+  'Alex',
+  'Tom',
+  'Kate',
+  'Molly',
+];
+const MESSAGE=[
+  'Всё отлично!',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+];
+
 const createComment= ()=>
   ({
     id: getRandomPositiveInteger (1,10),
@@ -16,4 +28,4 @@ const createComments=()=>
   }
   return comments;
 };
-export {createComment, createComments};
+export {createComments};

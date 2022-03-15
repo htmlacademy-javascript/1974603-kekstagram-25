@@ -5,14 +5,14 @@ const pictureTemplate=document.querySelector('#picture').content.querySelector('
 
 const renderPicture = (picture) => {
   const pictureElement = pictureTemplate.cloneNode(true);
-  pictureElement.querySelector('.pucture__img').src = picture.url;
-  pictureElement.querySelector('.pucture__comments').src = picture.comments.length;
-  pictureElement.querySelector('.pucture__likes').src = picture.likes;
+  pictureElement.querySelector('.picture__img').src = picture.url;
+  pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
+  pictureElement.querySelector('.picture__likes').textContent = picture.likes;
   return pictureElement;
 };
 
 const renderPictures = (pictures) => {
-  const fragment = DocumentFragment();
+  const fragment = new DocumentFragment();
   pictures.forEach((picture) => {
     fragment.appendChild(renderPicture(picture));
   });
