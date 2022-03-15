@@ -1,3 +1,5 @@
+import {createPhotoObjects} from './photo';
+import {renderPictures} from'./picture';
 const NAMES = [
   'Max',
   'Alex',
@@ -17,7 +19,8 @@ const MESSAGE=[
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
 ];
 
-
+const pictures = createPhotoObjects();
+renderPictures(pictures);
 const lengthString=(checkString, maxLength) => checkString <= maxLength;
 
 lengthString();
