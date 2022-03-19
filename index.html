@@ -113,11 +113,15 @@
                   </ul>
                 </fieldset>
 
-                <!-- Добавление хэш-тегов и комментария к изображению -->
-                <fieldset class="img-upload__text text">
-                  <input type="text" class="text__hashtags" name="hashtags" value="#" placeholder="#ХэшТег">
+               <!-- Добавление хэш-тегов и комментария к изображению -->
+               <fieldset class="img-upload__text text">
+                <div class="form__field">
+                  <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
+                </div>
+                <div class="form__field">
                   <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
-                </fieldset>
+                </div>
+              </fieldset>
 
                 <!-- Кнопка для отправки данных на сервер -->
                 <button type="submit" class="img-upload__submit" id="upload-submit">Опубликовать</button>
