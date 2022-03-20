@@ -1,3 +1,4 @@
+const downloadField=document.querySelector('.img-upload__start');
 const getRandomPositiveInteger = (minIndex, maxIndex) => {
   const lower = Math.ceil(Math.min(Math.abs(minIndex), Math.abs(maxIndex)));
   const upper = Math.floor(Math.max(Math.abs(minIndex), Math.abs(maxIndex)));
@@ -6,4 +7,14 @@ const getRandomPositiveInteger = (minIndex, maxIndex) => {
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
-export {getRandomPositiveInteger,getRandomArrayElement};
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const clearSelectionField = () => {
+  downloadField.innerHTML = '';
+};
+
+const lengthString=(checkString, maxLength) => checkString <= maxLength;
+lengthString();
+
+export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField};
