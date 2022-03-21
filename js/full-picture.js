@@ -1,8 +1,5 @@
 import {isEscapeKey} from './random.js';
-//import {MESSAGE,NAMES} from './comment.js';
 const fullPictureDisplay=document.querySelector('.big-picture'); //полноэранный показ картинки
-//const viewPicture=document.querySelector('.big-picture__img'); //просмотр изображения
-//const informationPicture=document.querySelector('.big-picture__social'); // информация об изображении
 const commentBlock=document.querySelector('.social__comments'); // блок со списком комментариев
 const commentCounter=document.querySelector('.social__comment-count'); // блок счетчика комментариев
 const commentDownload=document.querySelector('.comments-loader'); // загрузка новых комментариев
