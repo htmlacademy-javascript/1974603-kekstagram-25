@@ -37,13 +37,11 @@ const openWindow = () => {
     commentListItem.classList.add('social__comment');
     const imgTeg=commentListItem.createElement('img');
     imgTeg.classList.add('social__picture');
-    imgTeg.querySelector('social__picture').src=commentInfo.avatar;
-    imgTeg.querySelector('social__picture').textContent=commentInfo.name;
+    imgTeg.src=commentInfo.avatar;
+    imgTeg.alt=commentInfo.name;
     imgTeg.innerHTML=parametrs;
     const textComment=commentListItem.createElement('p');
     textComment.classList.add('social__text').textContent=commentInfo.comment;
-
-
   }
 };
 //закрытие окна
