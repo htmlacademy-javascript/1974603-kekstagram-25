@@ -99,8 +99,6 @@ const initPhotoForm = () => {
   }, 'Комментарий должен быть меньше 140 символов');
 };
 
-
-
 function openEditPhoto () {
   editPhoto.classList.remove('hidden');
   modalOpen.classList.add('modal-open');
