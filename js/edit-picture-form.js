@@ -1,7 +1,6 @@
 import {isEscapeKey} from './random.js';
 const choosePhoto=document.querySelector('#upload-file');
 const editPhoto=document.querySelector('.img-upload__overlay');
-const modalOpen=document.querySelector('body');
 const choosePhotoClose=document.querySelector('#upload-cancel');
 const pictureForm=document.querySelector('.img-upload__form');
 const inputComment=document.querySelector('.social__footer-text');
@@ -101,13 +100,13 @@ const initPhotoForm = () => {
 
 function openEditPhoto () {
   editPhoto.classList.remove('hidden');
-  modalOpen.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   document.addEventListener('keydown', onEditEscKeydown);
 }
 
 function closeEditPhoto () {
   editPhoto.classList.add('hidden');
-  modalOpen.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditEscKeydown);
 }
 

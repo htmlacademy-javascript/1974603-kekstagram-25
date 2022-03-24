@@ -1,9 +1,8 @@
 import {isEscapeKey} from './random.js';
 const fullPictureDisplay=document.querySelector('.big-picture'); //полноэранный показ картинки
-const commentBlock=document.querySelector('.social__comments'); // блок со списком комментариев
+const templatePicture=document.querySelector('.picture');
 const commentCounter=document.querySelector('.social__comment-count'); // блок счетчика комментариев
 const commentDownload=document.querySelector('.comments-loader'); // загрузка новых комментариев
-const modapOp=document.querySelector('body');
 
 
 const onEditEscKeydown = (evt) => {
@@ -14,7 +13,7 @@ const onEditEscKeydown = (evt) => {
 };
 // открытие окна
 const openWindow = () => {
-  fullPictureDisplay.addEventListener('change', () => {
+  templatePicture.addEventListener('click', () => {
     fullWindowOpen();
   });
   //отображение окна с полноразмерным изображением
@@ -22,26 +21,34 @@ const openWindow = () => {
     fullPictureDisplay.classList.remove('.hidden');
     commentCounter.classList.add('.hidden');
     commentDownload.classList.add('.hidden');
-    modapOp.classList.remove('.modal-open');
+    document.body.classList.remove('.modal-open');
     fullPictureDisplay.querySelector('.big-picture__img').src = fullPicture.url;
     fullPictureDisplay.querySelector('.likes-count').textContent = fullPicture.likes;
-    fullPictureDisplay.querySelector('.comments-count').textContent = fullPicture.comment;
-    fullPictureDisplay.querySelector('.social__comments').textContent = commentData();
+    fullPictureDisplay.querySelector('.comments-count').textContent = fullPicture.comments.length;
+    const fragment = new DocumentFragment();
+    for (let i=0; i<=fullPicture.comments;i++){
+      fragment.appendChild(commentData(i));
+    }
+    fullPictureDisplay.querySelector('.social__caption').appendChild(fragment);
     fullPictureDisplay.querySelector('.social__caption').textContent = fullPicture.description;
     document.addEventListener('keydown', onEditEscKeydown);
   }
+
   //блок, в который вставляются комментарии
   function commentData (commentInfo) {
-    const parametrs='width="35" height="35"';
-    const commentListItem = commentBlock.createElement('li');
+    const commentListItem = document.createElement('li');
     commentListItem.classList.add('social__comment');
-    const imgTeg=commentListItem.createElement('img');
+    fullPictureDisplay.appendChild(commentListItem);
+    const imgTeg=document.createElement('img');
     imgTeg.classList.add('social__picture');
+    commentListItem.appendChild(imgTeg);
     imgTeg.src=commentInfo.avatar;
     imgTeg.alt=commentInfo.name;
-    imgTeg.innerHTML=parametrs;
+    imgTeg.width=35;
+    imgTeg.height=35;
     const textComment=commentListItem.createElement('p');
-    textComment.classList.add('social__text').textContent=commentInfo.comment;
+    textComment.classList.add('social__text');
+    textComment.textContent=commentInfo.comment;
   }
 };
 //закрытие окна
@@ -49,10 +56,11 @@ function fullWindowClose () {
   fullPictureDisplay.classList.add('.hidden');
   commentCounter.classList.remove('.hidden');
   commentDownload.classList.remove('.hidden');
-  modapOp.classList.add('.modal-open');
+  document.body.classList.add('.modal-open');
   document.removeEventListener('keydown', onEditEscKeydown);
 }
 fullPictureDisplay.addEventListener('click', () => {
   fullWindowClose();
 
 });
+export {openWindow};

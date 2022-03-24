@@ -6,4 +6,6 @@ const getRandomPositiveInteger = (minIndex, maxIndex) => {
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+const lengthString=(checkString, maxLength) => checkString <= maxLength;
+lengthString();
 export {getRandomPositiveInteger,getRandomArrayElement};

@@ -1,7 +1,5 @@
-
 const pictureListElement=document.querySelector('.pictures');
 const pictureTemplate=document.querySelector('#picture').content.querySelector('.picture');
-
 
 const renderPicture = (picture) => {
   const pictureElement = pictureTemplate.cloneNode(true);
@@ -19,3 +17,4 @@ const renderPictures = (pictures) => {
   pictureListElement.appendChild(fragment);
 };
 export{renderPictures};
+
