@@ -9,7 +9,7 @@ const inputHashtag=document.querySelector('.text__hashtags');
 const commentText=document.querySelector('.text__description');
 
 const regular=/^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-
+const MAX_COMMENT_LENGTH=140;
 const pristine = new Pristine(pictureForm, {
   classTo: 'form__field',
   errorTextParent: 'form__field',
@@ -39,7 +39,7 @@ const initPhotoForm = () => {
 
     const isValid = pristine.validate();
     if (isValid){
-      // Тут будет отправка данных на сервер
+      // отправка данных на сервер
     }
   });
 
@@ -90,14 +90,8 @@ const initPhotoForm = () => {
     return tags.length === tagsSet.size;
   }, 'Теги не должны повторяться');
 
-  pristine.addValidator(commentText, () => {
-    if (commentText.value.length>=140){
-      return false;
-    }
-    return true;
-  }, 'Комментарий должен быть меньше 140 символов');
+  pristine.addValidator(commentText, () => commentText.value.length <= MAX_COMMENT_LENGTH, 'Комментарий должен быть меньше 140 символов');
 };
-
 function openEditPhoto () {
   editPhoto.classList.remove('hidden');
   document.body.classList.add('modal-open');
