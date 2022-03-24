@@ -10,6 +10,7 @@ const commentText=document.querySelector('.text__description');
 
 const regular=/^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const MAX_COMMENT_LENGTH=140;
+
 const pristine = new Pristine(pictureForm, {
   classTo: 'form__field',
   errorTextParent: 'form__field',
@@ -92,6 +93,7 @@ const initPhotoForm = () => {
 
   pristine.addValidator(commentText, () => commentText.value.length <= MAX_COMMENT_LENGTH, 'Комментарий должен быть меньше 140 символов');
 };
+
 function openEditPhoto () {
   editPhoto.classList.remove('hidden');
   document.body.classList.add('modal-open');
