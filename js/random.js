@@ -15,6 +15,5 @@ const clearSelectionField = () => {
 };
 
 const lengthString=(checkString, maxLength) => checkString <= maxLength;
-lengthString();
 
 export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField};
