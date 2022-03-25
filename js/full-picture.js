@@ -17,6 +17,7 @@ function fullWindowOpen (fullPicture) {
   commentCounter.classList.add('hidden');
   commentDownload.classList.add('hidden');
   document.body.classList.add('modal-open');
+  fullPictureDisplay.querySelector('.social__comments').innerHTML='';
   fullPictureDisplay.querySelector('.big-picture__img img').src = fullPicture.url;
   fullPictureDisplay.querySelector('.likes-count').textContent = fullPicture.likes;
   fullPictureDisplay.querySelector('.comments-count').textContent = fullPicture.comments.length;
