@@ -13,18 +13,18 @@ const onEditEscKeydown = (evt) => {
 
 //отображение окна с полноразмерным изображением
 function fullWindowOpen (fullPicture) {
-  fullPictureDisplay.classList.remove('.hidden');
-  commentCounter.classList.add('.hidden');
-  commentDownload.classList.add('.hidden');
-  document.body.classList.remove('.modal-open');
-  fullPictureDisplay.querySelector('.big-picture__img').src = fullPicture.url;
+  fullPictureDisplay.classList.remove('hidden');
+  commentCounter.classList.add('hidden');
+  commentDownload.classList.add('hidden');
+  document.body.classList.add('modal-open');
+  fullPictureDisplay.querySelector('.big-picture__img img').src = fullPicture.url;
   fullPictureDisplay.querySelector('.likes-count').textContent = fullPicture.likes;
   fullPictureDisplay.querySelector('.comments-count').textContent = fullPicture.comments.length;
   const fragment = new DocumentFragment();
   for (let i=0; i<fullPicture.comments.length;i++){
     fragment.appendChild(commentData(fullPicture.comments[i]));
   }
-  fullPictureDisplay.querySelector('.social__caption').appendChild(fragment);
+  fullPictureDisplay.querySelector('.social__comments').appendChild(fragment);
   fullPictureDisplay.querySelector('.social__caption').textContent = fullPicture.description;
   document.addEventListener('keydown', onEditEscKeydown);
 }
@@ -33,7 +33,6 @@ function fullWindowOpen (fullPicture) {
 function commentData (commentInfo) {
   const commentListItem = document.createElement('li');
   commentListItem.classList.add('social__comment');
-  fullPictureDisplay.appendChild(commentListItem);
   const imgTeg=document.createElement('img');
   imgTeg.classList.add('social__picture');
   commentListItem.appendChild(imgTeg);
@@ -44,17 +43,17 @@ function commentData (commentInfo) {
   const textComment=document.createElement('p');
   textComment.classList.add('social__text');
   commentListItem.appendChild(textComment);
-  textComment.textContent=commentInfo.comments;
+  textComment.textContent=commentInfo.message;
   return commentListItem;
 }
 
 
 //закрытие окна
 function fullWindowClose () {
-  fullPictureDisplay.classList.add('.hidden');
-  commentCounter.classList.remove('.hidden');
-  commentDownload.classList.remove('.hidden');
-  document.body.classList.add('.modal-open');
+  fullPictureDisplay.classList.add('hidden');
+  commentCounter.classList.remove('hidden');
+  commentDownload.classList.remove('hidden');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditEscKeydown);
 }
 fullPictureDisplay.addEventListener('click', () => {
