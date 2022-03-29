@@ -7,7 +7,6 @@ const sliderElement=document.querySelector('.effect-level__slider'); // слай
 const effectLevelValue=document.querySelector('.effect-level__value'); // записывается уровень жффекта
 const SCALE_STEP=25;
 
-
 const scalePlus=()=>{
   const valueNew=scaleValue.value.replace('%','');
   const valueNumb=Number(valueNew)+SCALE_STEP;
