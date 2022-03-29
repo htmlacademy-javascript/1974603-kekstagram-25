@@ -2,32 +2,57 @@ const scaleSmaller=document.querySelector('.scale__control--smaller');//кноп
 const scaleBigger=document.querySelector('.scale__control--bigger');//кнопка увеличения
 const scaleValue=document.querySelector('.scale__control--value'); //значение поля масштаба
 const picturePreview=document.querySelector('.img-upload__preview');
-const effectsRadio=document.querySelector('.effects__radio'); // кнопка с эффектом
+const effectsRadio=document.querySelectorAll('.effects__radio'); // кнопка с эффектом
 const sliderElement=document.querySelector('.effect-level__slider'); // слайдер изменяющий насыщенность
 const effectLevelValue=document.querySelector('.effect-level__value'); // записывается уровень жффекта
-//событие нажатие кнопки уменьшения
-scaleSmaller.addEventListener('click', () => {
-  scaleMinus();
-});
-
-//событие нажатие кнопки увеличения
-scaleBigger.addEventListener('click', () => {
-  scalePlus();
-});
+const SCALE_STEP=25;
 
 
-function scalePlus (){
-  scaleValue.value+=scaleValue.value+25;
-  picturePreview.style.transform =`scale(${scaleValue.value/100})`;
+const scalePlus=()=>{
+  console.log('scaleValue: ', scaleValue.value);
+  const valueNew=scaleValue.value.replace('%','');
+  const valueNumb=Number(valueNew)+SCALE_STEP;
+  if (valueNumb>=0 && valueNumb<=100){
+    scaleValue.value=`${String(valueNumb) }%`;
+    picturePreview.style.transform= `scale(${valueNumb/100})`;
+  }
+};
+const scaleMinus=()=>{
+  console.log('scaleValue: ', scaleValue.value);
+  const valueSc=scaleValue.value.replace('%','');
+  const valueNumber=Number(valueSc)-SCALE_STEP;
+  if (valueNumber>=0 && valueNumber<=100){
+    scaleValue.value=`${String(valueNumber) }%`;
+    picturePreview.style.transform= `scale(${valueNumber/100})`;
+  }
+};
+function initScale(){
+  //событие нажатие кнопки уменьшения
+  scaleSmaller.addEventListener('click', () => {
+    scaleMinus();
+  });
+
+  //событие нажатие кнопки увеличения
+  scaleBigger.addEventListener('click', () => {
+    scalePlus();
+  });
 }
-function scaleMinus (){
-  scaleValue.value-=scaleValue.value-25;
-  picturePreview.style.transform= `scale(${scaleValue.value/100})`;
-}
-//значение эффекта по умолчанию
-picturePreview.class = 'effect__preview effect__preview—none';
+
 
 const effectNames = {
+  none: {
+    filterName: 'none',
+    unit: '',
+    options: {
+      range: {
+        min: 0,
+        max: 0,
+      },
+      start: 0,
+      step: 0,
+      connect: 'lower',
+    },
+  },
   chrome: {
     filterName: 'grayscale',
     unit: '',
@@ -62,7 +87,7 @@ const effectNames = {
         min: 0,
         max: 100,
       },
-      start: 50,
+      start: 100,
       step: 1,
       connect: 'lower',
     },
@@ -75,7 +100,7 @@ const effectNames = {
         min: 0,
         max: 3,
       },
-      start: 1,
+      start: 3,
       step: 0.1,
       connect: 'lower',
     },
@@ -88,160 +113,48 @@ const effectNames = {
         min: 1,
         max: 3,
       },
-      start: 1,
+      start: 3,
       step: 0.1,
       connect: 'lower',
     },
   }
 };
-
+  //значение эффекта по умолчанию
+picturePreview.class = 'effect__preview effect__preview—none';
 //проверка есть ли слайдер
 function turnEffectLevel (effectName) {
   const {options, filterName, unit} = effectNames[effectName];
-
   if (sliderElement.noUiSlider) {
     sliderElement.noUiSlider.off();
     sliderElement.noUiSlider.updateOptions(options);
   } else {
     noUiSlider.create(sliderElement, options);
   }
+  if (effectName==='none'){
+    sliderElement.noUiSlider.off();
+  }
+  console.log(options, filterName, unit);
   // применение эффекта к изображению
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
     const value = unencoded[handle];
     effectLevelValue.value = value;
     picturePreview.style.filter = `${filterName}(${value}${unit})`;
+    console.log(picturePreview.style.filter);
   });
+
 }
 function addingFilters(effectRadio){
   picturePreview.class = `effect__preview effect_preview—${effectRadio.value}`;
+  console.log(picturePreview.class);
 }
+function initFilters(){
 //нажатие на кнопку смены эффекта
-effectsRadio.addEventListener('click', () => {
-  addingFilters(effectsRadio.value);
-  turnEffectLevel (effectNames);
-});
-/*
-const nodeEffectClass=()=>{
-  if(picturePreview.classList.contains('effects__preview--none')){
-    picturePreview.classList.remove('effects__preview--none');
+  for (const element of effectsRadio) {
+    element.addEventListener('change', (evt) => {
+      addingFilters(evt.target);
+      turnEffectLevel (evt.target.value);
+    });
   }
-};
-//наложение эффекта Хром
-function chromeEffect (){
-  nodeEffectClass();
-  picturePreview.class = 'effect__preview effect__preview—chrome';
 }
-//наложение эффекта Сепия
-function sepiaEffect (){
-  nodeEffectClass();
-  picturePreview.class = 'effect__preview effect__preview—sepia';
-}
-//наложение эффекта Marvin
-function marvinEffect (){
-  nodeEffectClass();
-  picturePreview.class = 'effect__preview effect__preview—marvin';
-}
-//наложение эффекта Phobos
-function phobosEffect (){
-  nodeEffectClass();
-  picturePreview.class = 'effect__preview effect__preview—phobos';
-}
-//наложение эффекта Heat
-function heatEffect () {
-  nodeEffectClass();
-  picturePreview.class = 'effect__preview effect__preview—heat';
-}
-из обработчика
-if (effectsRadio.value==='grayscale'){
-    chromeEffect();
-  }
-  if (effectsRadio.value==='sepia'){
-    sepiaEffect();
-  }
-  if (effectsRadio.value==='invert'){
-    marvinEffect();
-  }
-  if (effectsRadio.value==='blur'){
-    phobosEffect();
-  }
-  if (effectsRadio.value==='brightness'){
-    heatEffect();
-  }
-//слайдер
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
-  },
-});
 
-sliderElement.noUiSlider.on('update', () => {
-  effectLevelValue.value = sliderElement.noUiSlider.get();
-});
-
-effectLevelValue.addEventListener('change', () => {
-  if (effectLevelValue.value==='none'){
-    sliderElement.noUiSlider.destroy();
-    picturePreview.style.filter='';
-  }
-  else if (effectLevelValue.value==='grayscale') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1
-      },
-      step: 0.1
-    });
-  }
-  else if (effectLevelValue.value==='sepia') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      step: 0.1
-    });
-  }
-  else if (effectLevelValue.value==='invert') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      step: 1
-    });
-  }
-  else if (effectLevelValue.value==='blur') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      step: 0.1
-    });
-  }
-  else if (effectLevelValue.value==='brightness') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      step: 0.1
-    });
-  }
-});*/
-
-
+export {initScale,initFilters};
