@@ -9,7 +9,6 @@ const SCALE_STEP=25;
 
 
 const scalePlus=()=>{
-  console.log('scaleValue: ', scaleValue.value);
   const valueNew=scaleValue.value.replace('%','');
   const valueNumb=Number(valueNew)+SCALE_STEP;
   if (valueNumb>=0 && valueNumb<=100){
@@ -18,7 +17,6 @@ const scalePlus=()=>{
   }
 };
 const scaleMinus=()=>{
-  console.log('scaleValue: ', scaleValue.value);
   const valueSc=scaleValue.value.replace('%','');
   const valueNumber=Number(valueSc)-SCALE_STEP;
   if (valueNumber>=0 && valueNumber<=100){
@@ -94,7 +92,7 @@ const effectNames = {
   },
   phobos: {
     filterName: 'blur',
-    unit: '',
+    unit: 'px',
     options: {
       range: {
         min: 0,
@@ -119,8 +117,7 @@ const effectNames = {
     },
   }
 };
-  //значение эффекта по умолчанию
-picturePreview.class = 'effect__preview effect__preview—none';
+
 //проверка есть ли слайдер
 function turnEffectLevel (effectName) {
   const {options, filterName, unit} = effectNames[effectName];
@@ -130,22 +127,22 @@ function turnEffectLevel (effectName) {
   } else {
     noUiSlider.create(sliderElement, options);
   }
-  if (effectName==='none'){
-    sliderElement.noUiSlider.off();
+  if (effectName === 'none'){
+    picturePreview.class = 'effect__preview effect__preview--none';
+    picturePreview.style.filter = '';
+    sliderElement.noUiSlider.destroy();
+    return;
   }
-  console.log(options, filterName, unit);
   // применение эффекта к изображению
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
     const value = unencoded[handle];
     effectLevelValue.value = value;
     picturePreview.style.filter = `${filterName}(${value}${unit})`;
-    console.log(picturePreview.style.filter);
   });
 
 }
 function addingFilters(effectRadio){
-  picturePreview.class = `effect__preview effect_preview—${effectRadio.value}`;
-  console.log(picturePreview.class);
+  picturePreview.class = `effect__preview effect__preview--${effectRadio.value}`;
 }
 function initFilters(){
 //нажатие на кнопку смены эффекта
