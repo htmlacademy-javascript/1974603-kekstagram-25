@@ -14,6 +14,6 @@ const clearSelectionField = () => {
   downloadField.innerHTML = '';
 };
 
-const lengthString=(checkString, maxLength) => checkString <= maxLength;
+//const lengthString=(checkString, maxLength) => checkString <= maxLength;
 
 export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField};
