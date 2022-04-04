@@ -67,6 +67,7 @@ function setEditFormSubmit (){
           const successElement=successMessage.cloneNode(true);
           document.body.appendChild(successElement);
           document.addEventListener('click', closeSuccessMessage);
+          document.addEventListener('keydown', onEditEscKeydown);
           closeEditPhoto ();
           turnEffectLevel('none');
           picturePreview.style.transform= `scale(${100/100})`;
@@ -77,6 +78,7 @@ function setEditFormSubmit (){
           const errorElement=errorMessage.cloneNode(true);
           document.body.appendChild(errorElement);
           document.addEventListener('click', closeErrorMessage);
+          document.addEventListener('keydown', onEditEscKeydown);
           closeEditPhoto ();
           turnEffectLevel('none');
           pictureForm.reset();
