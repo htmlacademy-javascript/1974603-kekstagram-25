@@ -153,4 +153,4 @@ function initFilters(){
   }
 }
 
-export {initScale,initFilters};
+export {initScale,initFilters, turnEffectLevel};

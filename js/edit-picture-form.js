@@ -1,5 +1,6 @@
 import {isEscapeKey} from './random.js';
 import { sendData } from './server.js';
+import {turnEffectLevel} from './effects-scale.js';
 const choosePhoto=document.querySelector('#upload-file');
 const editPhoto=document.querySelector('.img-upload__overlay');
 const choosePhotoClose=document.querySelector('#upload-cancel');
@@ -8,10 +9,8 @@ const inputComment=document.querySelector('.social__footer-text');
 const sendButtonComments=document.querySelector('.img-upload__submit');
 const inputHashtag=document.querySelector('.text__hashtags');
 const commentText=document.querySelector('.text__description');
-const successMessage=document.querySelector('#success').сontent;//блок успешной загрузки
-//const successButton=document.querySelector('.success__button');
-const errorMessage=document.querySelector('#error');
-//const errorButton=document.querySelector('.error__button');
+const successMessage=document.querySelector('#success').content;//блок успешной загрузки
+const errorMessage=document.querySelector('#error').content;
 
 const regular=/^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const MAX_COMMENT_LENGTH=140;
@@ -20,6 +19,7 @@ const pristine = new Pristine(pictureForm, {
   classTo: 'form__field',
   errorTextParent: 'form__field',
   errorTextTag: 'p',
+  errorTextClass: 'form__error',
 });
 
 const onEditEscKeydown = (evt) => {
@@ -34,14 +34,12 @@ function closeSuccessMessage() {
   document.querySelector('.success').remove();
   document.removeEventListener('click', closeSuccessMessage);
 }
-document.addEventListener('click', closeSuccessMessage);
 
 
 function closeErrorMessage() {
   document.querySelector('.error').remove();
   document.removeEventListener('click', closeErrorMessage);
 }
-document.addEventListener('click', closeErrorMessage);
 
 
 function setEditFormSubmit (){
@@ -61,15 +59,26 @@ function setEditFormSubmit (){
     evt.stopPropagation();
     const isValid = pristine.validate();
     if (isValid) {
+      sendButtonComments.disabled=true;
       // отправка данных на сервер
       sendData(
         ()=>{
           const successElement=successMessage.cloneNode(true);
           document.body.appendChild(successElement);
+          document.addEventListener('click', closeSuccessMessage);
+          closeEditPhoto ();
+          turnEffectLevel('none');
+          pictureForm.reset();
+          sendButtonComments.disabled=false;
         },
         ()=>{
           const errorElement=errorMessage.cloneNode(true);
           document.body.appendChild(errorElement);
+          document.addEventListener('click', closeErrorMessage);
+          closeEditPhoto ();
+          turnEffectLevel('none');
+          pictureForm.reset();
+          sendButtonComments.disabled=false;
         },
         new FormData(evt.target),
       );
