@@ -11,6 +11,7 @@ const inputHashtag=document.querySelector('.text__hashtags');
 const commentText=document.querySelector('.text__description');
 const successMessage=document.querySelector('#success').content;//блок успешной загрузки
 const errorMessage=document.querySelector('#error').content;
+const picturePreview=document.querySelector('.img-upload__preview');
 
 const regular=/^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 const MAX_COMMENT_LENGTH=140;
@@ -68,6 +69,7 @@ function setEditFormSubmit (){
           document.addEventListener('click', closeSuccessMessage);
           closeEditPhoto ();
           turnEffectLevel('none');
+          picturePreview.style.transform= `scale(${100/100})`;
           pictureForm.reset();
           sendButtonComments.disabled=false;
         },
