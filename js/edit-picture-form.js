@@ -31,21 +31,24 @@ const onEditEscKeydown = (evt) => {
     closeErrorMessage();
   }
 };
-function closeSuccessMessage() {
-  document.querySelector('.success').remove();
-  document.removeEventListener('click', closeSuccessMessage);
+function closeSuccessMessage(){
+  const successClass=document.querySelector('.success');
+  if (successClass){
+    successClass.remove();
+    document.removeEventListener('click', closeSuccessMessage);
+  }
 }
 
-
 function closeErrorMessage() {
-  document.querySelector('.error').remove();
-  document.removeEventListener('click', closeErrorMessage);
+  const errorClass=document.querySelector('.error');
+  if (errorClass){
+    errorClass.remove();
+    document.removeEventListener('click', closeErrorMessage);
+  }
 }
 
 
 function setEditFormSubmit (){
-
-  //const initPhotoForm =()=> {
   choosePhoto.addEventListener('change', () => {
     openEditPhoto();
   });
@@ -64,23 +67,24 @@ function setEditFormSubmit (){
       // отправка данных на сервер
       sendData(
         ()=>{
+          closeEditPhoto();
+          turnEffectLevel('none');
+          picturePreview.style.transform= `scale(${100/100})`;
+          pictureForm.reset();
           const successElement=successMessage.cloneNode(true);
           document.body.appendChild(successElement);
           document.addEventListener('click', closeSuccessMessage);
           document.addEventListener('keydown', onEditEscKeydown);
-          closeEditPhoto ();
-          turnEffectLevel('none');
-          picturePreview.style.transform= `scale(${100/100})`;
-          pictureForm.reset();
           sendButtonComments.disabled=false;
         },
         ()=>{
+          closeEditPhoto ();
           const errorElement=errorMessage.cloneNode(true);
           document.body.appendChild(errorElement);
           document.addEventListener('click', closeErrorMessage);
           document.addEventListener('keydown', onEditEscKeydown);
-          closeEditPhoto ();
           turnEffectLevel('none');
+          picturePreview.style.transform= `scale(${100/100})`;
           pictureForm.reset();
           sendButtonComments.disabled=false;
         },
