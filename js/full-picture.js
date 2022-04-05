@@ -3,7 +3,6 @@ const fullPictureDisplay=document.querySelector('.big-picture'); //полноэ�
 const commentCounter=document.querySelector('.social__comment-count'); // блок счетчика комментариев
 const commentDownload=document.querySelector('.comments-loader'); // загрузка новых комментариев
 
-
 const onEditEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -61,4 +60,6 @@ fullPictureDisplay.addEventListener('click', () => {
   fullWindowClose();
 
 });
+
+
 export {fullWindowOpen};

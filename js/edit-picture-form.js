@@ -68,13 +68,13 @@ function setEditFormSubmit (){
       sendData(
         ()=>{
           closeEditPhoto();
-          turnEffectLevel('none');
-          picturePreview.style.transform= `scale(${100/100})`;
-          pictureForm.reset();
           const successElement=successMessage.cloneNode(true);
           document.body.appendChild(successElement);
           document.addEventListener('click', closeSuccessMessage);
           document.addEventListener('keydown', onEditEscKeydown);
+          turnEffectLevel('none');
+          picturePreview.style.transform= `scale(${100/100})`;
+          pictureForm.reset();
           sendButtonComments.disabled=false;
         },
         ()=>{
