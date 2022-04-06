@@ -1416,3 +1416,11 @@ main {
 .hidden {
   display: none;
 }
+/**
+ * Сообщение пристин об ошибке
+ */
+ .form__error {
+  display: block;
+  font-size:1em;
+  color: #FF4500;
+}

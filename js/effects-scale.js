@@ -118,20 +118,18 @@ const effectNames = {
 };
 
 //проверка есть ли слайдер
-function turnEffectLevel (effectName) {
+const turnEffectLevel=(effectName) => {
   const {options, filterName, unit} = effectNames[effectName];
   if (sliderElement.noUiSlider) {
-    sliderElement.noUiSlider.off();
-    sliderElement.noUiSlider.updateOptions(options);
-  } else {
-    noUiSlider.create(sliderElement, options);
+    sliderElement.noUiSlider.destroy();
   }
   if (effectName === 'none'){
     picturePreview.class = 'effect__preview effect__preview--none';
     picturePreview.style.filter = '';
-    sliderElement.noUiSlider.destroy();
     return;
   }
+  noUiSlider.create(sliderElement, options);
+  picturePreview.class = `effect__preview effect__preview--${effectName}`;
   // применение эффекта к изображению
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
     const value = unencoded[handle];
@@ -139,18 +137,15 @@ function turnEffectLevel (effectName) {
     picturePreview.style.filter = `${filterName}(${value}${unit})`;
   });
 
-}
-function addingFilters(effectRadio){
-  picturePreview.class = `effect__preview effect__preview--${effectRadio.value}`;
-}
-function initFilters(){
+};
+
+const initFilters=()=>{
 //нажатие на кнопку смены эффекта
   for (const element of effectsRadio) {
     element.addEventListener('change', (evt) => {
-      addingFilters(evt.target);
       turnEffectLevel (evt.target.value);
     });
   }
-}
+};
 
-export {initScale,initFilters};
+export {initScale,initFilters, turnEffectLevel};
