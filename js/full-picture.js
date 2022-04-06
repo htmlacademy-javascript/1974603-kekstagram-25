@@ -2,6 +2,8 @@ import {isEscapeKey} from './random.js';
 const fullPictureDisplay=document.querySelector('.big-picture'); //полноэранный показ картинки
 const commentCounter=document.querySelector('.social__comment-count'); // блок счетчика комментариев
 const commentDownload=document.querySelector('.comments-loader'); // загрузка новых комментариев
+const bigPictureCancel=document.querySelector('.big-picture__cancel');
+const QUANTITY_COMMENTS=5;
 
 
 const onEditEscKeydown = (evt) => {
@@ -11,24 +13,50 @@ const onEditEscKeydown = (evt) => {
   }
 };
 
+let comments=[];
 //отображение окна с полноразмерным изображением
 function fullWindowOpen (fullPicture) {
+  comments.length=0;
   fullPictureDisplay.classList.remove('hidden');
-  commentCounter.classList.add('hidden');
-  commentDownload.classList.add('hidden');
   document.body.classList.add('modal-open');
+  commentCounter.classList.remove('hidden');
+  commentDownload.classList.remove('hidden');
   fullPictureDisplay.querySelector('.social__comments').innerHTML='';
   fullPictureDisplay.querySelector('.big-picture__img img').src = fullPicture.url;
   fullPictureDisplay.querySelector('.likes-count').textContent = fullPicture.likes;
   fullPictureDisplay.querySelector('.comments-count').textContent = fullPicture.comments.length;
   const fragment = new DocumentFragment();
-  for (let i=0; i<fullPicture.comments.length;i++){
-    fragment.appendChild(commentData(fullPicture.comments[i]));
+  const count=fullPicture.comments.length<QUANTITY_COMMENTS ? fullPicture.comments.length : QUANTITY_COMMENTS;
+  for(let f=0;f<count;f++){
+    fragment.appendChild(commentData(fullPicture.comments[f]));
   }
+  comments=fullPicture.comments;
+  if (comments.length<QUANTITY_COMMENTS){
+    fullPictureDisplay.querySelector('.comments-count-begin').textContent=comments.length;
+    commentDownload.classList.add('hidden');
+  }
+  const addComments=()=>{
+    const createdComments=document.querySelectorAll('.social__comment');
+    if(createdComments.length===comments.length-1){
+      commentDownload.classList.add('hidden');
+    }
+    if(createdComments.length<comments.length){
+      const moreComments=comments.slice(createdComments.length,createdComments.length+QUANTITY_COMMENTS);
+      for(let j=0;j<moreComments.length;j++){
+        fragment.appendChild(commentData(fullPicture.comments[j]));
+      }
+      fullPictureDisplay.querySelector('.comments-count-begin').textContent =createdComments.length+moreComments.length;
+      fullPictureDisplay.querySelector('.social__comments').appendChild(fragment);
+    }
+
+
+  };
   fullPictureDisplay.querySelector('.social__comments').appendChild(fragment);
   fullPictureDisplay.querySelector('.social__caption').textContent = fullPicture.description;
+  commentDownload.addEventListener('click',addComments);
   document.addEventListener('keydown', onEditEscKeydown);
 }
+
 
 //блок, в который вставляются комментарии
 function commentData (commentInfo) {
@@ -57,8 +85,10 @@ function fullWindowClose () {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditEscKeydown);
 }
-fullPictureDisplay.addEventListener('click', () => {
+bigPictureCancel.addEventListener('click', () => {
   fullWindowClose();
 
 });
+
+
 export {fullWindowOpen};
