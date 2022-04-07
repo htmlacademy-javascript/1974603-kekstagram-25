@@ -44,13 +44,11 @@ function fullWindowOpen (fullPicture) {
 function addComments(pictureComments){
   const createdComments=document.querySelectorAll('.social__comment');
   const fragment = new DocumentFragment();
-  console.log(comments.length);
   if(createdComments.length===comments.length-1){
     commentDownload.classList.add('hidden');
   }
   if(createdComments.length<comments.length){
     const moreComments=comments.slice(createdComments.length,createdComments.length+QUANTITY_COMMENTS);
-    console.log(moreComments);
     for(let j=0;j<moreComments.length;j++){
       fragment.appendChild(commentData(pictureComments.comments[j]));
     }
