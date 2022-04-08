@@ -3,6 +3,9 @@ const fullPictureDisplay=document.querySelector('.big-picture'); //полноэ�
 const commentCounter=document.querySelector('.social__comment-count'); // блок счетчика комментариев
 const commentDownload=document.querySelector('.comments-loader'); // загрузка новых комментариев
 const bigPictureCancel=document.querySelector('.big-picture__cancel');
+const commentsCountBegin = fullPictureDisplay.querySelector('.comments-count-begin');
+const socialComments = fullPictureDisplay.querySelector('.social__comments');
+const comments=[];
 const QUANTITY_COMMENTS=5;
 
 
@@ -12,8 +15,6 @@ const onEditEscKeydown = (evt) => {
     fullWindowClose();
   }
 };
-
-const comments=[];
 //отображение окна с полноразмерным изображением
 function fullWindowOpen (fullPicture) {
   comments.length=0;
@@ -32,28 +33,28 @@ function fullWindowOpen (fullPicture) {
   }
   comments.push(...fullPicture.comments);
   if (comments.length<QUANTITY_COMMENTS){
-    fullPictureDisplay.querySelector('.comments-count-begin').textContent=comments.length;
+    commentsCountBegin.textContent=comments.length;
     commentDownload.classList.add('hidden');
   }
-  fullPictureDisplay.querySelector('.social__comments').appendChild(fragment);
+  socialComments.appendChild(fragment);
   fullPictureDisplay.querySelector('.social__caption').textContent = fullPicture.description;
-  commentDownload.addEventListener('click',()=>addComments(fullPicture.comments));
+  commentDownload.addEventListener('click',addComments);
   document.addEventListener('keydown', onEditEscKeydown);
 }
 
-function addComments(pictureComments){
-  const createdComments=document.querySelectorAll('.social__comment');
+function addComments(){
+  const createdCommentCount=document.querySelectorAll('.social__comment').length;
   const fragment = new DocumentFragment();
-  if(createdComments.length===comments.length-1){
+  if(createdCommentCount===comments.length-1){
     commentDownload.classList.add('hidden');
   }
-  if(createdComments.length<comments.length){
-    const moreComments=comments.slice(createdComments.length,createdComments.length+QUANTITY_COMMENTS);
-    for(let j=0;j<moreComments.length;j++){
-      fragment.appendChild(commentData(pictureComments.comments[j]));
-    }
-    fullPictureDisplay.querySelector('.comments-count-begin').textContent=createdComments.length+moreComments.length;
-    fullPictureDisplay.querySelector('.social__comments').appendChild(fragment);
+  if(createdCommentCount<comments.length){
+    const moreComments=comments.slice(createdCommentCount,createdCommentCount+QUANTITY_COMMENTS);
+    moreComments.forEach((commentInfo)=>{
+      fragment.appendChild(commentData(commentInfo));
+    });
+    commentsCountBegin.textContent=createdCommentCount+moreComments.length;
+    socialComments.appendChild(fragment);
   }
 }
 //блок, в который вставляются комментарии
