@@ -32,6 +32,7 @@ function fullWindowOpen (fullPicture) {
     fragment.appendChild(commentData(fullPicture.comments[f]));
   }
   comments.push(...fullPicture.comments);
+  commentsCountBegin.textContent=QUANTITY_COMMENTS;
   if (comments.length<QUANTITY_COMMENTS){
     commentsCountBegin.textContent=comments.length;
     commentDownload.classList.add('hidden');
