@@ -35,5 +35,11 @@ const showAlert = (message) => {
 };
 
 //const lengthString=(checkString, maxLength) => checkString <= maxLength;
-
-export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField,showAlert};
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField,showAlert, debounce};

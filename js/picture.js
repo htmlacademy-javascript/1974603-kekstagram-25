@@ -3,6 +3,7 @@ import {fullWindowOpen} from './full-picture.js';
 const pictureListElement=document.querySelector('.pictures');
 const pictureTemplate=document.querySelector('#picture').content.querySelector('.picture');
 
+
 const renderPicture = (picture) => {
   const pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = picture.url;
