@@ -12,7 +12,9 @@ const renderPicture = (picture) => {
   pictureElement.addEventListener('click', () => fullWindowOpen(picture));
   return pictureElement;
 };
-
+const cleanPictureList=()=>{
+  pictureListElement.innerHTML='';
+};
 const renderPictures = (pictures) => {
   const fragment = new DocumentFragment();
   pictures.forEach((picture) => {
@@ -21,4 +23,4 @@ const renderPictures = (pictures) => {
   pictureListElement.appendChild(fragment);
 };
 
-export{renderPictures};
+export{renderPictures,cleanPictureList};
