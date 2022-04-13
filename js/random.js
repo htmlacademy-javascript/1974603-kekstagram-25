@@ -42,6 +42,9 @@ const debounce = (callback, timeoutDelay) => {
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 };
+const selectFilterButton = (button) => {
+  document.querySelectorAll('.img-filters__button--active').forEach((element) => element.classList.remove('img-filters__button--active'));
+  button.classList.add('img-filters__button--active');
+};
 
-
-export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField,showAlert, debounce};
+export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField,showAlert, debounce,selectFilterButton};
