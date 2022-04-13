@@ -1,4 +1,4 @@
-//import { showAlert } from './random.js';
+
 
 const getData=(onSuccess,onError)=>{
   fetch('https://25.javascript.pages.academy/kekstagram/data')
