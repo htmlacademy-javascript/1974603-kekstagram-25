@@ -5,6 +5,7 @@ import {closeEditPhoto} from './edit-picture-form.js';
 import{getData} from './server.js';
 import {showAlert} from './random.js';
 import {debounce} from './random.js';
+import{chooseAvatar} from './avatar.js';
 
 const RERENDER_DELAY = 500;
 const imgFilters=document.querySelector('.img-filters');
@@ -14,7 +15,7 @@ const discussedButton=document.querySelector('#filter-discussed');
 
 initScale();
 initFilters();
-
+chooseAvatar();
 getData(
   (pictures)=>{
     renderPictures(pictures);

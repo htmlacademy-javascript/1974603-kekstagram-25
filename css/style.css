@@ -1421,6 +1421,11 @@ main {
  */
  .form__error {
   display: block;
-  font-size:1em;
+  font-size:1.2em;
   color: #FF4500;
-}
+  text-transform: none;
+  padding: 0px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-weight:600;
+ }
