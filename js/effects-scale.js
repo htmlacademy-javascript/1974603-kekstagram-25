@@ -136,7 +136,6 @@ const turnEffectLevel=(effectName) => {
     effectLevelValue.value = value;
     picturePreview.style.filter = `${filterName}(${value}${unit})`;
   });
-
 };
 
 const initFilters=()=>{

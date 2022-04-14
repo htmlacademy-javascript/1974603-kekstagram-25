@@ -1,8 +1,8 @@
 import {renderPictures,cleanPictureList} from './picture.js';
 import {initScale, initFilters} from './effects-scale.js';
-import {setEditFormSubmit} from './edit-picture-form.js';
-import {closeEditPhoto} from './edit-picture-form.js';
-import{getData} from './server.js';
+import {setEditFormSubmit,closeEditPhoto} from './edit-picture-form.js';
+import {getData} from './server.js';
+import {chooseAvatar} from './avatar.js';
 import {showAlert,debounce,selectFilterButton} from './random.js';
 const defaultButton=document.querySelector('#filter-default');
 const RERENDER_DELAY = 500;
@@ -13,7 +13,7 @@ const discussedButton=document.querySelector('#filter-discussed');
 
 initScale();
 initFilters();
-
+chooseAvatar();
 getData(
   (pictures)=>{
     renderPictures(pictures);
