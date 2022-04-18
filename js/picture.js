@@ -1,26 +1,26 @@
-
-import {fullWindowOpen} from './full-picture.js';
+import {openFullWindow} from './full-picture.js';
 const pictureListElement=document.querySelector('.pictures');
 const pictureTemplate=document.querySelector('#picture').content.querySelector('.picture');
 
 
-const renderPicture = (picture) => {
+const getRenderPicture = (picture) => {
   const pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = picture.url;
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
   pictureElement.querySelector('.picture__likes').textContent = picture.likes;
-  pictureElement.addEventListener('click', () => fullWindowOpen(picture));
+  pictureElement.addEventListener('click', () => openFullWindow(picture));
   return pictureElement;
 };
-const cleanPictureList=()=>{
-  pictureListElement.innerHTML='';
+const cleanPictureList = () => {
+  const pictureList= document.querySelectorAll('.picture');
+  pictureList.forEach((photo) => photo.remove());
 };
-const renderPictures = (pictures) => {
+const getRenderPictures = (pictures) => {
   const fragment = new DocumentFragment();
   pictures.forEach((picture) => {
-    fragment.appendChild(renderPicture(picture));
+    fragment.appendChild(getRenderPicture(picture));
   });
   pictureListElement.appendChild(fragment);
 };
 
-export{renderPictures,cleanPictureList};
+export{getRenderPictures,cleanPictureList};

@@ -1,19 +1,6 @@
-const downloadField=document.querySelector('.img-upload__start');
-const ALERT_SHOW_TIME=5000;
-const getRandomPositiveInteger = (minIndex, maxIndex) => {
-  const lower = Math.ceil(Math.min(Math.abs(minIndex), Math.abs(maxIndex)));
-  const upper = Math.floor(Math.max(Math.abs(minIndex), Math.abs(maxIndex)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+const ALERT_SHOW_TIME = 5000;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const clearSelectionField = () => {
-  downloadField.innerHTML = '';
-};
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -34,7 +21,6 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-//const lengthString=(checkString, maxLength) => checkString <= maxLength;
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
@@ -47,4 +33,4 @@ const selectFilterButton = (button) => {
   button.classList.add('img-filters__button--active');
 };
 
-export {getRandomPositiveInteger,getRandomArrayElement, isEscapeKey, clearSelectionField,showAlert, debounce,selectFilterButton};
+export {isEscapeKey, showAlert, debounce,selectFilterButton};

@@ -1,20 +1,19 @@
 import {isEscapeKey} from './random.js';
-import { sendData } from './server.js';
-import {turnEffectLevel} from './effects-scale.js';
+import {sendData} from './server.js';
+import {getTurnEffectLevel} from './effects-scale.js';
+const MAX_COMMENT_LENGTH = 140;
 const choosePhoto=document.querySelector('#upload-file');
 const editPhoto=document.querySelector('.img-upload__overlay');
 const choosePhotoClose=document.querySelector('#upload-cancel');
 const pictureForm=document.querySelector('.img-upload__form');
-const inputComment=document.querySelector('.social__footer-text');
 const sendButtonComments=document.querySelector('.img-upload__submit');
 const inputHashtag=document.querySelector('.text__hashtags');
 const commentText=document.querySelector('.text__description');
-const successMessage=document.querySelector('#success').content;//блок успешной загрузки
-const errorMessage=document.querySelector('#error').content;
 const picturePreview=document.querySelector('.img-upload__preview');
-
-const regular=/^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-const MAX_COMMENT_LENGTH=140;
+const fullPhoto=picturePreview.querySelector('img');
+const successMessage=document.querySelector('#success').content;
+const errorMessage=document.querySelector('#error').content;
+const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 const pristine = new Pristine(pictureForm, {
   classTo: 'form__field',
@@ -23,32 +22,33 @@ const pristine = new Pristine(pictureForm, {
   errorTextClass: 'form__error',
 });
 
+
+const onCloseSuccessMessage = () => {
+  const successClass=document.querySelector('.success');
+  if (successClass) {
+    successClass.remove();
+    document.removeEventListener('click', onCloseSuccessMessage);
+  }
+};
+
+const onCloseErrorMessage = () => {
+  const errorClass=document.querySelector('.error');
+  if (errorClass) {
+    errorClass.remove();
+    document.removeEventListener('click', onCloseErrorMessage);
+  }
+};
+
 const onEditEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeEditPhoto();
-    closeSuccessMessage();
-    closeErrorMessage();
+    onCloseSuccessMessage();
+    onCloseErrorMessage();
   }
 };
-function closeSuccessMessage(){
-  const successClass=document.querySelector('.success');
-  if (successClass){
-    successClass.remove();
-    document.removeEventListener('click', closeSuccessMessage);
-  }
-}
 
-function closeErrorMessage() {
-  const errorClass=document.querySelector('.error');
-  if (errorClass){
-    errorClass.remove();
-    document.removeEventListener('click', closeErrorMessage);
-  }
-}
-
-
-function setEditFormSubmit (){
+const getSetEditFormSubmit = () => {
   choosePhoto.addEventListener('change', () => {
     openEditPhoto();
   });
@@ -64,44 +64,43 @@ function setEditFormSubmit (){
     const isValid = pristine.validate();
     if (isValid) {
       sendButtonComments.disabled=true;
-      // отправка данных на сервер
       sendData(
-        ()=>{
+        () => {
           closeEditPhoto();
           const successElement=successMessage.cloneNode(true);
           document.body.appendChild(successElement);
-          document.addEventListener('click', closeSuccessMessage);
+          document.addEventListener('click', onCloseSuccessMessage);
           document.addEventListener('keydown', onEditEscKeydown);
-          turnEffectLevel('none');
+          getTurnEffectLevel('none');
           picturePreview.style.transform= `scale(${100/100})`;
           pictureForm.reset();
           sendButtonComments.disabled=false;
         },
-        ()=>{
-          closeEditPhoto ();
+        () => {
+          closeEditPhoto();
           const errorElement=errorMessage.cloneNode(true);
           document.body.appendChild(errorElement);
-          document.addEventListener('click', closeErrorMessage);
+          document.addEventListener('click', onCloseErrorMessage);
           document.addEventListener('keydown', onEditEscKeydown);
-          turnEffectLevel('none');
-          picturePreview.style.transform= `scale(${100/100})`;
+          getTurnEffectLevel('none');
+          picturePreview.style.transform = `scale(${100/100})`;
           pictureForm.reset();
-          sendButtonComments.disabled=false;
+          sendButtonComments.disabled = false;
         },
         new FormData(evt.target),
       );
     }
   });
-
-  //незакрытие при фокусе на esc
-  inputHashtag.addEventListener('focus', (evt) => {
-    if (isEscapeKey(evt)){
+  inputHashtag.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
       evt.stopPropagation();
     }
   });
 
-  inputComment.addEventListener('focus', (evt) => {
-    if (isEscapeKey(evt)){
+  commentText.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
       evt.stopPropagation();
     }
   });
@@ -127,24 +126,27 @@ function setEditFormSubmit (){
     return true;
   }, 'Тег не соответствует правилам');
 
-  //проверка на количество тегов
   pristine.addValidator(inputHashtag, (value) => {
     const tags = value.trim().split(/\s+/);
     return tags.length <= 5;
   }, 'Тегов должно быть не больше 5');
 
-  //повторы в тегах
   pristine.addValidator(inputHashtag, (value) => {
-    const tags = value.trim().split(/\s+/);
+    const tags = value.toLowerCase().trim().split(/\s+/);
     const tagsSet = new Set(tags);
     return tags.length === tagsSet.size;
   }, 'Теги не должны повторяться');
 
   pristine.addValidator(commentText, () => commentText.value.length <= MAX_COMMENT_LENGTH, 'Комментарий должен быть меньше 140 символов');
-}
+};
 
+const getResetForm = () => {
+  fullPhoto.style.transform = `scale(${1})`;
+  getTurnEffectLevel('none');
+};
 
-function openEditPhoto () {
+function openEditPhoto() {
+  getResetForm();
   editPhoto.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onEditEscKeydown);
@@ -157,4 +159,4 @@ function closeEditPhoto () {
 }
 
 
-export{setEditFormSubmit, closeEditPhoto,openEditPhoto};
+export{getSetEditFormSubmit, closeEditPhoto,openEditPhoto};
