@@ -143,7 +143,6 @@ const getSetEditFormSubmit = () => {
 const getResetForm = () => {
   fullPhoto.style.transform = `scale(${1})`;
   getTurnEffectLevel('none');
-  pictureForm.reset();
 };
 
 function openEditPhoto() {
