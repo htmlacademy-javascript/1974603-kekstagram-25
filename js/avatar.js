@@ -1,8 +1,8 @@
-
-const picturePreview=document.querySelector('.img-upload__input');//поле ввода, с помощью которого пользователь выбирает изображение
-const preview = document.querySelector('.setup-user-pic');//картинка, куда будет вставляться превью загруженного изображения
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-const chooseAvatar=()=>{
+const picturePreview=document.querySelector('.img-upload__input');
+const preview = document.querySelector('.setup-user-pic');
+
+const chooseAvatar = () => {
   picturePreview.addEventListener('change', () => {
     const file = picturePreview.files[0];
     const fileName = file.name.toLowerCase();

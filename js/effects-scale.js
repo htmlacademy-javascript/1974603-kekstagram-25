@@ -1,42 +1,41 @@
-const scaleSmaller=document.querySelector('.scale__control--smaller');//кнопка уменьшения
-const scaleBigger=document.querySelector('.scale__control--bigger');//кнопка увеличения
-const scaleValue=document.querySelector('.scale__control--value'); //значение поля масштаба
-const picturePreview=document.querySelector('.img-upload__preview');
-const effectsRadio=document.querySelectorAll('.effects__radio'); // кнопка с эффектом
-const sliderElement=document.querySelector('.effect-level__slider'); // слайдер изменяющий насыщенность
-const effectLevelValue=document.querySelector('.effect-level__value'); // записывается уровень жффекта
 const SCALE_STEP=25;
+const scaleSmaller=document.querySelector('.scale__control--smaller');
+const scaleBigger=document.querySelector('.scale__control--bigger');
+const scaleValue=document.querySelector('.scale__control--value');
+const picturePreview=document.querySelector('.img-upload__preview');
+const fullPhoto=picturePreview.querySelector('img');
+const effectsRadio=document.querySelectorAll('.effects__radio');
+const sliderElement=document.querySelector('.effect-level__slider');
+const effectLevelValue=document.querySelector('.effect-level__value');
+const imgUpload=document.querySelector('.img-upload__effect-level');
 
-const scalePlus=()=>{
+imgUpload.classList.add('hidden');
+const getScalePlus = () => {
   const valueNew=scaleValue.value.replace('%','');
   const valueNumb=Number(valueNew)+SCALE_STEP;
-  if (valueNumb>=0 && valueNumb<=100){
-    scaleValue.value=`${String(valueNumb) }%`;
-    picturePreview.style.transform= `scale(${valueNumb/100})`;
+  if (valueNumb > 0 && valueNumb <= 100){
+    scaleValue.value=`${String(valueNumb)}%`;
+    fullPhoto.style.transform= `scale(${valueNumb/100})`;
   }
 };
-const scaleMinus=()=>{
+const getScaleMinus = () => {
   const valueSc=scaleValue.value.replace('%','');
   const valueNumber=Number(valueSc)-SCALE_STEP;
-  if (valueNumber>=0 && valueNumber<=100){
-    scaleValue.value=`${String(valueNumber) }%`;
-    picturePreview.style.transform= `scale(${valueNumber/100})`;
+  if (valueNumber > 0 && valueNumber <= 100){
+    scaleValue.value=`${String(valueNumber)}%`;
+    fullPhoto.style.transform= `scale(${valueNumber/100})`;
   }
 };
-function initScale(){
-  //событие нажатие кнопки уменьшения
+const getInitScale = () => {
   scaleSmaller.addEventListener('click', () => {
-    scaleMinus();
+    getScaleMinus();
   });
-
-  //событие нажатие кнопки увеличения
   scaleBigger.addEventListener('click', () => {
-    scalePlus();
+    getScalePlus();
   });
-}
+};
 
-
-const effectNames = {
+const EffectNames = {
   none: {
     filterName: 'none',
     unit: '',
@@ -82,10 +81,10 @@ const effectNames = {
     options: {
       range: {
         min: 0,
-        max: 100,
+        max: 100/100,
       },
-      start: 100,
-      step: 1,
+      start: 100/100,
+      step: 1/100,
       connect: 'lower',
     },
   },
@@ -117,20 +116,21 @@ const effectNames = {
   }
 };
 
-//проверка есть ли слайдер
-const turnEffectLevel=(effectName) => {
-  const {options, filterName, unit} = effectNames[effectName];
+const getTurnEffectLevel = (effectName) => {
+  const {options, filterName, unit} = EffectNames[effectName];
   if (sliderElement.noUiSlider) {
     sliderElement.noUiSlider.destroy();
   }
-  if (effectName === 'none'){
+  if (effectName === 'none') {
     picturePreview.class = 'effect__preview effect__preview--none';
     picturePreview.style.filter = '';
+    imgUpload.classList.add('hidden');
     return;
   }
   noUiSlider.create(sliderElement, options);
+  imgUpload.classList.remove('hidden');
+  imgUpload.classList.add('img-upload__effect-level');
   picturePreview.class = `effect__preview effect__preview--${effectName}`;
-  // применение эффекта к изображению
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
     const value = unencoded[handle];
     effectLevelValue.value = value;
@@ -138,13 +138,12 @@ const turnEffectLevel=(effectName) => {
   });
 };
 
-const initFilters=()=>{
-//нажатие на кнопку смены эффекта
+const getInitFilters = () => {
   for (const element of effectsRadio) {
     element.addEventListener('change', (evt) => {
-      turnEffectLevel (evt.target.value);
+      getTurnEffectLevel (evt.target.value);
     });
   }
 };
 
-export {initScale,initFilters, turnEffectLevel};
+export {getInitScale, getInitFilters, getTurnEffectLevel};
